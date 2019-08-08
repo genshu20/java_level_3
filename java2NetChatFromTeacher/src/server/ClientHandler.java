@@ -24,7 +24,7 @@ public class ClientHandler {
 
         new Thread(()-> {
                 try {
-                    socket.setSoTimeout(30000);
+                    socket.setSoTimeout(60000);
 //                    new Thread(()-> {
 //                        try{
 //                            Thread.sleep(5000);
@@ -48,6 +48,7 @@ public class ClientHandler {
                                     sendMsg("/authOk");
                                     login=token[1];
                                     nick = newNick;
+                                    out.writeUTF("/get "+login+" "+nick);
                                     server.subscribe(this);
                                     try {
                                         socket.setSoTimeout(0);
@@ -87,10 +88,9 @@ public class ClientHandler {
                             }
                             nick=token[3];
                             login=token[1];
-                        }
-                        if(str.equals("/get")){
                             out.writeUTF("/get "+login+" "+nick);
                         }
+
                         if (str.startsWith("/w ")) {
                             String[] token = str.split(" +", 3);
                             server.broadcastMsg(token[2], nick, token[1]);

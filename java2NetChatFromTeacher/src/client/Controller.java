@@ -82,7 +82,7 @@ public class Controller {
         }
     }
 
-    public void connect() {
+    public  void connect() {
 
         try {
             socket = new Socket(IP_ADRESS, PORT);
@@ -157,7 +157,7 @@ public class Controller {
             connect();
         }
         try {
-            out.writeUTF("/auth " + loginField.getText() + " " + passwordField.getText());
+            out.writeUTF("/auth " + loginField.getText().trim() + " " + passwordField.getText().trim());
             loginField.clear();
             passwordField.clear();
         } catch (IOException e) {
@@ -201,8 +201,8 @@ public class Controller {
 
     }
 
-    public void tryToEdit(ActionEvent actionEvent) {
-        if(regController==null){
+    public  void tryToEdit(ActionEvent actionEvent) {
+
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("regsample.fxml"));
                 Parent root1=(Parent) fxmlLoader.load();
@@ -215,22 +215,13 @@ public class Controller {
 
                 stage.setTitle("reg/edit");
                 stage.setScene(new Scene(root1,300,300));
-                stage.show();
-                System.out.println(root1);
-                out.writeUTF("/get");
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 regController.loginFild.setText(login);
                 regController.nickFild.setText(nick);
+                stage.show();
+                System.out.println(root1);
             } catch (IOException e) {
 
             }
-        }else{
-            Stage stage=(Stage) regController.buttonClose.getScene().getWindow();
-            stage.show();
-        }
+
     }
 }

@@ -37,13 +37,17 @@ public class AuthService {
         return null;
     }
     public static void addMessageToDataBase(String sender,String receiver,String text,String date){
-        String sql=String.format("INSERT INTO messages(sender,receiver,text,date)\n" +
-                "VALUES('%s','%s','%s','%s')",sender,receiver,text,date);
-        try {
-            stmt.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(!text.startsWith("/")){
+            String sql=String.format("INSERT INTO messages(sender,receiver,text,date)\n" +
+                    "VALUES('%s','%s','%s','%s')",sender,receiver,text,date);
+            try {
+                stmt.executeUpdate(sql);
+                stmt.executeUpdate("delete from messages where id=(select min(id) from messages)\n");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
     }
     public static String getMessagesFromDBToNick(String nick){
         String sql=String.format("SELECT*FROM messages\n" +

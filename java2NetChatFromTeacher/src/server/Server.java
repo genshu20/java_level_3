@@ -1,5 +1,8 @@
 package server;
 
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,6 +11,7 @@ import java.util.Vector;
 
 public class Server {
     Vector<ClientHandler>clients;
+
 
     public Server() throws SQLException {
         AuthService.connect();
@@ -47,6 +51,7 @@ public class Server {
            o.sendMsg(sender+": "+str);
         }
     }
+
     public void broadcastMsg(String str,String sender,String receiver){
         AuthService.addMessageToDataBase(sender,receiver,str,"0000");
         for(ClientHandler o:clients){

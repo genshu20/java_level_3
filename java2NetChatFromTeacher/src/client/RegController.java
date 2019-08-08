@@ -1,5 +1,6 @@
 package client;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -21,6 +22,8 @@ public class RegController {
     public Button buttonReg;
     @FXML
     public Button buttonEdit;
+    @FXML
+    public TextField information;
     Controller controller;
 
     public void clickClose(ActionEvent actionEvent) {
@@ -30,7 +33,13 @@ public class RegController {
 
     public void clickReg(ActionEvent actionEvent) {
         try {
-            controller.out.writeUTF("/reg "+loginFild.getText()+" "+passFild.getText()+" "+nickFild.getText());
+            if(loginFild.getText().contains(" ")||passFild.getText().contains(" ")||nickFild.getText().contains(" ")){
+                information.setText("invalid characters");
+            }else{
+                controller.out.writeUTF("/reg "+loginFild.getText()+" "+passFild.getText()+" "+nickFild.getText());
+                information.setText("OK");
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,7 +48,13 @@ public class RegController {
     public void clickEdit(ActionEvent actionEvent) {
         if(controller.isAuthorized){
             try {
-                controller.out.writeUTF("/edit "+loginFild.getText()+" "+passFild.getText()+" "+nickFild.getText());
+                if(loginFild.getText().contains(" ")||passFild.getText().contains(" ")||nickFild.getText().contains(" ")){
+                    information.setText("invalid characters");
+                }else{
+                    controller.out.writeUTF("/edit "+loginFild.getText()+" "+passFild.getText()+" "+nickFild.getText());
+                    information.setText("OK");
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
